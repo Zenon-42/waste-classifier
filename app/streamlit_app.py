@@ -20,7 +20,6 @@ from src.gradcam import make_gradcam_heatmap, overlay_heatmap
 MODEL_PATH = "models/mobilenet_finetuned_best.keras"
 CLASSES_PATH = "models/mobilenet_finetuned_classes.json"
 IMG_SIZE = (224, 224)
-LAST_CONV_LAYER = "Conv_1"  # confirm via model.summary() if this differs
 
 DISPOSAL_TIPS = {
     "cardboard": "Flatten and place in the recyclable/dry waste bin.",
@@ -58,7 +57,7 @@ def main():
 
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded image", use_column_width=True)
+        st.image(image, caption="Uploaded image", use_container_width=True)
 
         arr, batch = preprocess(image)
         preds = model.predict(batch)[0]
@@ -74,9 +73,9 @@ def main():
                 st.write(f"{cls}: {prob:.1%}")
 
         with st.expander("See Grad-CAM (what the model focused on)"):
-            heatmap, _ = make_gradcam_heatmap(batch, model, LAST_CONV_LAYER, pred_idx)
+            heatmap, _ = make_gradcam_heatmap(batch, model, pred_idx)
             overlay = overlay_heatmap(arr, heatmap)
-            st.image(overlay, caption="Grad-CAM overlay", use_column_width=True)
+            st.image(overlay, caption="Grad-CAM overlay", use_container_width=True)
 
 
 if __name__ == "__main__":
