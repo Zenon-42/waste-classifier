@@ -4,7 +4,7 @@ pandas
 matplotlib
 seaborn
 scikit-learn
-opencv-python
+opencv-python-headless
 streamlit
 pillow
 tqdm
